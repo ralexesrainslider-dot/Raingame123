@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blauwdruk</title>
+<meta name="description" content="Speel games van anderen, bouw je eigen game met AI en publiceer hem op Blauwdruk.">
+<meta name="theme-color" content="#1d4fff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d4fff'/%3E%3Crect x='7' y='7' width='18' height='18' rx='2' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M7 13h18M13 7v18' stroke='%236fe3ff' stroke-width='1.6'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/style.css">
+<script src="/app.js" defer></script>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="bar">
+      <button class="brand" id="brand" type="button" aria-label="Blauwdruk, naar alle games">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect x="3" y="3" width="22" height="22" rx="3" stroke="#fff" stroke-width="2"/><path d="M3 10h22M10 3v22" stroke="#6fe3ff" stroke-width="1.6"/><circle cx="17.5" cy="17.5" r="3" fill="#fff"/></svg>
+        Blauwdruk
+      </button>
+      <div class="right">
+        <span class="who" id="who" hidden></span>
+        <div class="plus-wrap">
+          <button class="plus" id="plus" type="button" aria-label="Account maken of game bouwen" aria-haspopup="true" aria-expanded="false">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+          </button>
+          <div class="menu" id="menu" role="menu" hidden>
+            <button type="button" role="menuitem" id="m-ai">Game laten maken door AI</button>
+            <button type="button" role="menuitem" id="m-code">Zelf een game maken</button>
+            <hr>
+            <button type="button" role="menuitem" id="m-out">Uitloggen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero">
+      <h1>Speel games van anderen. Bouw je eigen.</h1>
+      <p>Klik op het plusje rechtsboven, maak een account en vertel de AI welke game je wilt maken.</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div id="view-home" class="wrap section">
+    <div class="sec-head"><h2>Games</h2><span class="mono" id="count"></span></div>
+    <div id="feed"></div>
+  </div>
+
+  <section id="view-studio" class="wrap studio" hidden>
+    <div class="studio-head">
+      <button class="btn small" id="st-back" type="button">Terug naar games</button>
+      <h2>Nieuwe game</h2>
+    </div>
+    <div class="studio-grid">
+      <div class="panel">
+        <div class="tabs" role="tablist" aria-label="Hoe wil je bouwen">
+          <button type="button" role="tab" id="tab-ai" aria-selected="true">Met AI</button>
+          <button type="button" role="tab" id="tab-code" aria-selected="false">Zelf met code</button>
+        </div>
+        <div id="pane-ai">
+          <label for="ai-prompt" id="ai-label">Wat voor game wil je maken?</label>
+          <textarea class="in" id="ai-prompt" rows="4" maxlength="2000" placeholder="Bijvoorbeeld: een snelle snake-game met levels"></textarea>
+          <div class="chips" id="ai-chips"></div>
+          <label class="check" id="ai-multi-wrap"><input type="checkbox" id="ai-multi"><span>Multiplayer: meerdere spelers tegelijk in dezelfde game</span></label>
+          <div class="row">
+            <button class="btn primary" id="ai-go" type="button">Bouw mijn game</button>
+            <button class="btn ghost" id="ai-stop" type="button" hidden>Stop</button>
+            <button class="btn ghost" id="ai-reset" type="button" hidden>Nieuwe game starten</button>
+          </div>
+          <p class="note gap" id="ai-status" role="status"></p>
+        </div>
+        <div id="pane-code" hidden>
+          <label for="code-area">HTML van je game (alles in een bestand)</label>
+          <textarea class="in code" id="code-area" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
+          <div class="row gap"><button class="btn primary" id="code-run" type="button">Test mijn game</button></div>
+          <p class="note gap" id="code-status" role="status"></p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="stage-bar"><span class="mono">Testvenster</span><button class="btn small ghost" id="st-reload" type="button" hidden>Opnieuw starten</button></div>
+        <div class="frame-box" id="stage-box">
+          <div class="empty" id="stage-empty"><p>Je game verschijnt hier zodra hij klaar is. Daarna kun je hem testen.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel publish">
+      <h3>Publiceren</h3>
+      <div class="pub-grid">
+        <div class="field"><label for="pub-title">Naam van je game</label><input class="in" id="pub-title" maxlength="40" autocomplete="off"></div>
+        <div class="field"><label for="pub-desc">Korte uitleg</label><input class="in" id="pub-desc" maxlength="120" autocomplete="off"></div>
+      </div>
+      <label class="check first"><input type="checkbox" id="pub-multi"><span>Deze game is multiplayer</span></label>
+      <label class="check"><input type="checkbox" id="pub-done" disabled><span>Mijn game is af en ik heb hem getest</span></label>
+      <div class="row"><button class="btn primary" id="pub-go" type="button" disabled>Publiceer</button></div>
+      <p class="note gap" id="pub-note" role="status">Bouw of schrijf eerst een game.</p>
+    </div>
+  </section>
+</main>
+
+<div class="overlay" id="auth" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <button class="x" id="auth-x" type="button" aria-label="Sluiten">&times;</button>
+    <h2 id="auth-title"></h2>
+    <p class="lead" id="auth-lead"></p>
+    <form id="auth-form" novalidate>
+      <div class="field" id="f-email"><label for="a-email">E-mailadres</label><input class="in" id="a-email" type="email" autocomplete="email" inputmode="email" maxlength="120"></div>
+      <div class="field" id="f-login"><label for="a-login">E-mailadres of gebruikersnaam</label><input class="in" id="a-login" type="text" autocomplete="username" autocapitalize="off" spellcheck="false" maxlength="120"></div>
+      <div class="field" id="f-pass"><label for="a-pass" id="l-pass">Wachtwoord</label><input class="in" id="a-pass" type="password" autocomplete="new-password" maxlength="200"></div>
+      <div class="field" id="f-user"><label for="a-user">Gebruikersnaam</label><input class="in" id="a-user" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+      <div class="field" id="f-code"><label for="a-code">Code uit je e-mail</label><input class="in codebox" id="a-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="7" placeholder="123456"></div>
+      <p class="err" id="auth-err" role="alert"></p>
+      <button class="btn primary wide" id="auth-go" type="submit">Verder</button>
+    </form>
+    <div class="alt" id="auth-alt"></div>
+  </div>
+</div>
+
+<div class="play" id="play" hidden>
+  <div class="play-bar">
+    <div class="wrap">
+      <button class="btn small" id="play-x" type="button">Sluiten</button>
+      <div class="play-title"><span id="play-title"></span><small id="play-author"></small></div>
+      <span class="grow"></span>
+      <span class="mono" id="play-count" hidden></span>
+      <form class="room" id="room-form" hidden>
+        <label for="room-code" class="mono nomargin">Kamer</label>
+        <input class="in" id="room-code" value="open" maxlength="12" autocomplete="off" autocapitalize="off">
+        <button class="btn small" type="submit">Ga</button>
+      </form>
+    </div>
+  </div>
+  <div class="play-box" id="play-box"></div>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+<noscript><p class="wrap">Blauwdruk heeft JavaScript nodig. Zet JavaScript aan in je browser.</p></noscript>
+</body>
+</html>
